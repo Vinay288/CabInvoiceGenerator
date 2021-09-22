@@ -21,9 +21,10 @@ public class CabInvoiceGeneratorTest {
     @Test
     public void givenDistanceAndTimeMultipleRides_WhenCorrect_ShouldReturnTotalAggregatedFare() {
         CabInvoiceGenerator generateInvoice = new CabInvoiceGenerator();
-        Ride[] rides={new Ride(5,5),new Ride(10,20),new Ride(0.2,1)};
-        double totalFare = generateInvoice.calculateTotalJourneyFare(rides);
-        Assertions.assertEquals(180, totalFare);
+        Ride[] rides = {new Ride(5, 5), new Ride(10, 20), new Ride(0.2, 1)};
+        Invoice actualInvoice = generateInvoice.calculateTotalJourneyFare(rides);
+        Invoice expectedInvoice = new Invoice(3, 180, 60);
+        Assertions.assertEquals(expectedInvoice.toString(), actualInvoice.toString());
     }
 
 }
