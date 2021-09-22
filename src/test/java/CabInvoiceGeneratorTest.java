@@ -44,10 +44,10 @@ public class CabInvoiceGeneratorTest {
     public void givenUserIdAndRideType_WhenTypeIsNormal_ShouldReturnInvoiceFromRideRepository() {
         CabInvoiceGenerator generateInvoice = new CabInvoiceGenerator();
         HashMap<Integer, Ride[]> rideRepository = new HashMap<>();
-        rideRepository.put(100, new Ride[]{new Ride(5, 5), new Ride(10, 20), new Ride(0.2, 1)});
+        rideRepository.put(100, new Ride[]{new Ride(2, 15), new Ride(10, 20), new Ride(0.2, 2)});
         rideRepository.put(200, new Ride[]{new Ride(10, 20), new Ride(0.2, 5)});
-        Invoice actualInvoice = generateInvoice.calculateTotalJourneyFare(100, rideRepository, RideType.NORMAL_RIDE);
-        Invoice expectedInvoice = new Invoice(3, 180, 60);
+        Invoice actualInvoice = generateInvoice.calculateTotalJourneyFare(100, rideRepository, RideType.PREMIUM_RIDE);
+        Invoice expectedInvoice = new Invoice(3, 270, 90);
         Assertions.assertEquals(expectedInvoice.toString(), actualInvoice.toString());
     }
 }
