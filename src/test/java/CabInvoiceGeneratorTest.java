@@ -8,7 +8,7 @@ public class CabInvoiceGeneratorTest {
     public void givenDistanceAndTime_WhenCorrect_ShouldReturnTotalFare() {
         int totalKilometer = 2, totalTimeInMinutes = 5;
         CabInvoiceGenerator generateInvoice = new CabInvoiceGenerator();
-        double totalFare = generateInvoice.calculateTotalJourneyFare(totalKilometer, totalTimeInMinutes);
+        double totalFare = generateInvoice.calculateTotalJourneyFare(totalKilometer, totalTimeInMinutes, RideType.NORMAL_RIDE);
         Assertions.assertEquals(25, totalFare);
     }
 
@@ -16,7 +16,7 @@ public class CabInvoiceGeneratorTest {
     public void givenDistanceAndTime_WhenLess_ShouldReturnMinimumFare() {
         double totalKilometer = 0.1, totalTimeInMinutes = 1;
         CabInvoiceGenerator generateInvoice = new CabInvoiceGenerator();
-        double totalFare = generateInvoice.calculateTotalJourneyFare(totalKilometer, totalTimeInMinutes);
+        double totalFare = generateInvoice.calculateTotalJourneyFare(totalKilometer, totalTimeInMinutes, RideType.NORMAL_RIDE);
         Assertions.assertEquals(5, totalFare);
     }
 
@@ -24,7 +24,7 @@ public class CabInvoiceGeneratorTest {
     public void givenDistanceAndTimeMultipleRides_WhenCorrect_ShouldReturnTotalAggregatedFare() {
         CabInvoiceGenerator generateInvoice = new CabInvoiceGenerator();
         Ride[] rides = {new Ride(5, 5), new Ride(10, 20), new Ride(0.2, 1)};
-        Invoice actualInvoice = generateInvoice.calculateTotalJourneyFare(rides);
+        Invoice actualInvoice = generateInvoice.calculateTotalJourneyFare(rides, RideType.NORMAL_RIDE);
         Invoice expectedInvoice = new Invoice(3, 180, 60);
         Assertions.assertEquals(expectedInvoice.toString(), actualInvoice.toString());
     }
@@ -35,9 +35,19 @@ public class CabInvoiceGeneratorTest {
         HashMap<Integer, Ride[]> rideRepository = new HashMap<>();
         rideRepository.put(100, new Ride[]{new Ride(5, 5), new Ride(10, 20), new Ride(0.2, 1)});
         rideRepository.put(200, new Ride[]{new Ride(10, 20), new Ride(0.2, 5)});
-        Invoice actualInvoice = generateInvoice.calculateTotalJourneyFare(100, rideRepository);
+        Invoice actualInvoice = generateInvoice.calculateTotalJourneyFare(100, rideRepository, RideType.NORMAL_RIDE);
         Invoice expectedInvoice = new Invoice(3, 180, 60);
         Assertions.assertEquals(expectedInvoice.toString(), actualInvoice.toString());
     }
 
+    @Test
+    public void givenUserIdAndRideType_WhenTypeIsNormal_ShouldReturnInvoiceFromRideRepository() {
+        CabInvoiceGenerator generateInvoice = new CabInvoiceGenerator();
+        HashMap<Integer, Ride[]> rideRepository = new HashMap<>();
+        rideRepository.put(100, new Ride[]{new Ride(5, 5), new Ride(10, 20), new Ride(0.2, 1)});
+        rideRepository.put(200, new Ride[]{new Ride(10, 20), new Ride(0.2, 5)});
+        Invoice actualInvoice = generateInvoice.calculateTotalJourneyFare(100, rideRepository, RideType.NORMAL_RIDE);
+        Invoice expectedInvoice = new Invoice(3, 180, 60);
+        Assertions.assertEquals(expectedInvoice.toString(), actualInvoice.toString());
+    }
 }
