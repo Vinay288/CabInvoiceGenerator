@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class CabInvoiceGenerator {
     private static final int PER_KILOMETER_FARE = 10;
     private static final int PER_MINUTE_FARE = 1;
@@ -8,4 +10,7 @@ public class CabInvoiceGenerator {
         return totalFare > MINIMUM_FARE ? totalFare : MINIMUM_FARE;
     }
 
+    public double calculateTotalJourneyFare(Ride[] rides) {
+        return Arrays.stream(rides).mapToDouble(ride -> calculateTotalJourneyFare(ride.getTotalDistance(), ride.getTotalMinutes())).sum();
+    }
 }
