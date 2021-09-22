@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class CabInvoiceGenerator {
     private static final int PER_KILOMETER_FARE = 10;
@@ -11,9 +12,13 @@ public class CabInvoiceGenerator {
     }
 
     public Invoice calculateTotalJourneyFare(Ride[] rides) {
-        double totalFare=Arrays.stream(rides).mapToDouble(ride -> calculateTotalJourneyFare(ride.getTotalDistance(), ride.getTotalMinutes())).sum();
-        int totalRides=rides.length;
-        double averageFarePerRide=totalFare/totalRides;
-        return new Invoice(totalRides,totalFare,averageFarePerRide);
+        double totalFare = Arrays.stream(rides).mapToDouble(ride -> calculateTotalJourneyFare(ride.getTotalDistance(), ride.getTotalMinutes())).sum();
+        int totalRides = rides.length;
+        double averageFarePerRide = totalFare / totalRides;
+        return new Invoice(totalRides, totalFare, averageFarePerRide);
+    }
+
+    public Invoice calculateTotalJourneyFare(Integer userId, HashMap<Integer, Ride[]> rideRepository) {
+        return calculateTotalJourneyFare(rideRepository.get(userId));
     }
 }
