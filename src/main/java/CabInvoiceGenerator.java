@@ -10,7 +10,10 @@ public class CabInvoiceGenerator {
         return totalFare > MINIMUM_FARE ? totalFare : MINIMUM_FARE;
     }
 
-    public double calculateTotalJourneyFare(Ride[] rides) {
-        return Arrays.stream(rides).mapToDouble(ride -> calculateTotalJourneyFare(ride.getTotalDistance(), ride.getTotalMinutes())).sum();
+    public Invoice calculateTotalJourneyFare(Ride[] rides) {
+        double totalFare=Arrays.stream(rides).mapToDouble(ride -> calculateTotalJourneyFare(ride.getTotalDistance(), ride.getTotalMinutes())).sum();
+        int totalRides=rides.length;
+        double averageFarePerRide=totalFare/totalRides;
+        return new Invoice(totalRides,totalFare,averageFarePerRide);
     }
 }
